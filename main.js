@@ -52,6 +52,7 @@
 // document.getElementById("exm").innerHTML = exmHTML;
 // };
 
+
 const searchBooks = async () => {
   const kwd = document.getElementById("keyword").value.trim();
   if (!kwd) return alert("검색어를 입력하세요!");
