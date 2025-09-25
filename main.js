@@ -51,7 +51,8 @@
 
 // document.getElementById("exm").innerHTML = exmHTML;
 // };
-
+let btn = document.getElementById("searchBtn");
+btn.addEventListener("onclick",searchBooks);
 
 const searchBooks = async () => {
   const kwd = document.getElementById("keyword").value.trim();
