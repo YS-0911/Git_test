@@ -56,11 +56,11 @@ export async function handler(event, context) {
 
     const books = rawData?.body?.books || [];
 
-    const filteredData = books.map((book) => ({
-      title: book.titleInfo,
-      category: book.category,
-      link: book.linkUrl,
-      imageUrl: book.imageUrl
+    const filteredData = books.map((result) => ({
+      title: result.titleInfo,
+      category: result.category,
+      link: result.linkUrl,
+      imageUrl: result.imageUrl
     }));
 
     return {
