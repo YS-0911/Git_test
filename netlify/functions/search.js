@@ -54,11 +54,11 @@ export async function handler(event, context) {
       };
     }
 
-    const items = rawData?.body?.items || [];
+    const books = rawData?.body?.books || [];
 
-    const filteredData = items.map((item) => ({
-      imageUrl: item.imageUrl,
-      titleInfo: item.titleInfo
+    const filteredData = books.map((books) => ({
+      imageUrl: books.imageUrl,
+      titleInfo: books.titleInfo
     }));
 
     return {
