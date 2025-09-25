@@ -51,8 +51,6 @@
 
 // document.getElementById("exm").innerHTML = exmHTML;
 // };
-let btn = document.getElementById("searchBtn");
-btn.addEventListener("onclick",searchBooks);
 
 const searchBooks = async () => {
   const kwd = document.getElementById("keyword").value.trim();
@@ -68,3 +66,5 @@ const searchBooks = async () => {
     document.getElementById("exm").innerHTML = "<p>검색 중 오류가 발생했습니다.</p>";
   }
 };
+
+document.getElementById("searchBtn").addEventListener("click", searchBooks);
