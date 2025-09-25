@@ -12,7 +12,7 @@ const searchBooks = async () => {
   }
 
   // 검색어를 URL 인코딩해서 API 호출
-  const url = new URL(`https://www.nl.go.kr/NL/search/openApi/search.do?key=${encodeURIComponent(API_KEY)}&srchTarget=total&kwd=${encodeURIComponent(kwd)}&pageNum=1&pageSize=10&category=도서&apiType=json`);
+  const url = new URL(`https://www.nl.go.kr/NL/search/openApi/search.do?key=${encodeURIComponent(API_KEY)}&srchTarget=total&kwd=${kwd}&pageNum=1&pageSize=10&category=도서&apiType=json`);
   
   try {
     const response = await fetch(url);
