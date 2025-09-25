@@ -1,9 +1,10 @@
 // import dotenv from "dotenv";
 // dotenv.config();    
 // const key = process.env.API_KEY; // 국립중앙도서관 API 키 입력
+
+
 document.getElementById("searchBtn").addEventListener("click", searchBooks);
 let abcd = [];
-
 // 검색 함수
 async function searchBooks () {
   const kwd = document.getElementById("keyword").value.trim();
@@ -13,7 +14,7 @@ async function searchBooks () {
   }
 
   // 검색어를 URL 인코딩해서 API 호출
-  const url = new URL(`https://www.nl.go.kr/NL/search/openApi/search.do?key=${encodeURIComponent(API_KEY)}&srchTarget=total&kwd=${kwd}&pageNum=1&pageSize=10&category=도서&apiType=json`);
+  const url = new URL(`https://www.nl.go.kr/NL/search/openApi/search.do?key=${key}&srchTarget=total&kwd=${kwd}&pageNum=1&pageSize=10&category=도서&apiType=json`);
   
   try {
     const response = await fetch(url);
@@ -27,7 +28,6 @@ async function searchBooks () {
     document.getElementById("exm").innerHTML = "<p>검색 중 오류가 발생했습니다.</p>";
   }
 }
-
     // 출력 함수
 const render = () => {
   // imageUrl이 존재하는 책만 추려내기
