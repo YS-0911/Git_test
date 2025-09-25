@@ -5,7 +5,7 @@ document.getElementById("searchBtn").addEventListener("click", searchBooks);
 let abcd = [];
 
 // 검색 함수
-const searchBooks = async () => {
+async function searchBooks () {
   const kwd = document.getElementById("keyword").value.trim();
   if (!kwd) {
     alert("검색어를 입력하세요!");
