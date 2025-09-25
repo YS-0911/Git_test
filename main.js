@@ -91,20 +91,18 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
       return;
     }
 
-    container.innerHTML = data
-      .map(
-        (d) => `
-      <div class="book-card" style="margin-bottom:20px;">
-        <h2>${books.titleInfo}</h2>
-        <div class="img-area">
-          <a href="${books.detailLink}" target="_blank">
-            <img src="${imgUrl}" alt="${books.titleInfo}" style="max-width:150px;">
-          </a>
+    container.innerHTML = filteredData
+      .map((d) =>` 
+        <div class="book-card" style="margin-bottom:20px;">
+          <h2>${d.title}</h2>
+          <div class="img-area">
+            <a href="${d.link}" target="_blank">
+              <img src="${d.imageUrl}" alt="${d.title}" style="max-width:150px;">
+            </a>
+          </div>
         </div>
-      </div>
-    `
-      )
-      .join("");
+      `)
+      .join('');
   } catch (err) {
     console.error("프론트 fetch 에러:", err);
   }
