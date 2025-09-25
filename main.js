@@ -63,10 +63,12 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
     alert("검색어를 입력해주세요.");
     return;
   }
+  console.log(query);
 
   try {
   const res = await fetch(`/.netlify/functions/search?q=${encodeURIComponent(query)}`);
   const text = await res.text(); // JSON 아닌 경우 대비
+  console.log(text);
   let data;
   try {
     data = JSON.parse(text);
