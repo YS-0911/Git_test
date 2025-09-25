@@ -54,9 +54,9 @@ export async function handler(event, context) {
       };
     }
 
-    const books = rawData?.body?.books || [];
+    const result = rawData?.body?.result || [];
 
-    const filteredData = books.map((result) => ({
+    const filteredData = result.map((result) => ({
       title: result.titleInfo,
       category: result.category,
       link: result.linkUrl,
