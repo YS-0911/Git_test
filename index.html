@@ -1,69 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>책 검색</title>
+  <style>
+    .book-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 10px;
+      display: inline-block;
+      width: 180px;
+      text-align: center;
+    }
+    .book-card img {
+      max-width: 150px;
+      height: auto;
+    }
+  </style>
 </head>
 <body>
   <div>
-    <!-- 검색창 -->
     <input type="text" id="searchInput" placeholder="책 제목 입력">
     <button id="searchBtn">검색</button>
   </div>
-<!--  -->
+
   <!-- 결과 출력 영역 -->
   <div id="exm"></div>
 
-    <!-- <script>
-    const API_KEY = "b7aa4a45b752f3922e351f3626281be53c87c1ca97b1cda9133e6e1f4839f3f9"; // ⚠️ 클라이언트에 직접 쓰면 키 노출됨 (실제 서비스에서는 서버에서 숨겨야 함)
-
-    document.getElementById("searchBtn").addEventListener("click", async () => {
-      const kwd = document.getElementById("searchInput").value.trim();
-      if (!kwd) {
-        alert("검색어를 입력하세요!");
-        return;
-      }
-
-      const url = `https://www.nl.go.kr/NL/search/openApi/search.do?key=${API_KEY}&srchTarget=total&kwd=${encodeURIComponent(kwd)}&pageNum=1&pageSize=10&category=도서&apiType=json`;
-
-      try {
-        const response = await fetch(url);
-        const data = await response.json();
-
-        // ✅ 콘솔에서 전체 JSON 보기
-        console.log("📌 API 응답 데이터:", data);
-
-        // ✅ 책 리스트(body > items 같은 구조일 수 있음)
-        if (data && data.result) {
-          console.log("📚 책 리스트:", data.result);
-        }
-
-        // 브라우저 화면에도 간단 출력
-        document.getElementById("exm").innerHTML = JSON.stringify(data.result || [], null, 2);
-
-      } catch (err) {
-        console.error("API 호출 실패:", err);
-      }
-    });
-  </script> -->
-  <!-- <script src="./main.js"></script> -->
   <script>
     document.getElementById("searchBtn").addEventListener("click", async () => {
       const kwd = document.getElementById("searchInput").value.trim();
       if (!kwd) return alert("검색어를 입력하세요!");
 
       try {
-        // Netlify Functions 엔드포인트 호출
+        // ✅ Netlify 함수 호출
         const response = await fetch(`/.netlify/functions/search?q=${encodeURIComponent(kwd)}`);
         const data = await response.json();
 
-        console.log("📌 Netlify 함수 응답:", data); // ✅ 콘솔에서 JSON 확인
+        console.log("📌 응답 데이터:", data); // 디버깅용
+
+        // ✅ 책 리스트가 어디 있는지 확인 (API 구조 따라 body나 result 안에 있음)
+        const books = data?.body?.items || data?.result || [];
+
+        if (!books.length) {
+          document.getElementById("exm").innerHTML = "<p>검색 결과가 없습니다.</p>";
+          return;
+        }
+
+        // ✅ HTML 생성
+        const html = books.map(book => {
+          const imgUrl = book.imageUrl ? `https://cover.nl.go.kr/${book.imageUrl}` : "";
+          return `
+            <div class="book-card">
+              <h3>${book.titleInfo || "제목 없음"}</h3>
+              ${imgUrl ? `<img src="${imgUrl}" alt="${book.titleInfo}">` : `<p>이미지 없음</p>`}
+            </div>
+          `;
+        }).join("");
+
+        document.getElementById("exm").innerHTML = html;
+
       } catch (err) {
         console.error("API 호출 실패:", err);
+        document.getElementById("exm").innerHTML = "<p>검색 중 오류가 발생했습니다.</p>";
       }
     });
   </script>
 </body>
-
 </html>
