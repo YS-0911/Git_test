@@ -79,6 +79,36 @@
 
 
 
+// export async function handler(event, context) {
+//   try {
+//     const query = event.queryStringParameters?.q;
+//     if (!query) {
+//       return {
+//         statusCode: 400,
+//         body: JSON.stringify({ error: "검색어를 입력해주세요." }),
+//       };
+//     }
+
+//     const url = `https://www.nl.go.kr/NL/search/openApi/search.do?key=${
+//       process.env.API_KEY
+//     }&srchTarget=total&kwd=${encodeURIComponent(query)}&pageNum=1&pageSize=10&category=도서&apiType=json`;
+
+//     const response = await fetch(url);
+//     const data = await response.json();
+
+//     return {
+//       statusCode: 200,
+//       body: JSON.stringify(data),
+//     };
+//   } catch (err) {
+//     return {
+//       statusCode: 500,
+//       body: JSON.stringify({ error: "서버 에러", detail: err.message }),
+//     };
+//   }
+// }
+
+
 export async function handler(event, context) {
   try {
     const query = event.queryStringParameters?.q;
