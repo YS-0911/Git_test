@@ -17,7 +17,7 @@ const searchBooks = async () => {
   const url = new URL(`https://www.nl.go.kr/NL/search/openApi/search.do?key=${key}&srchTarget=total&kwd=${encodeURIComponent(kwd)}&pageNum=1&pageSize=10&category=도서&apiType=json`);
   
   try {
-    const response = await axios.get(url);
+    const response = await fetch(url);
     const sample = await response.json();
     abcd = sample.result || [];
 
