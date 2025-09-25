@@ -1,4 +1,8 @@
-// const key = .env에 있는 키값; // 국립중앙도서관 API 키 입력
+// import axios from "axios";
+// import fs from "fs";
+// import dotenv from "dotenv";
+// dotenv.config();    
+// const key = process.env.api_key; // 국립중앙도서관 API 키 입력
 // let abcd = [];
 
 // // 검색 함수
@@ -52,19 +56,54 @@
 // document.getElementById("exm").innerHTML = exmHTML;
 // };
 
-const searchBooks = async () => {
-  const kwd = document.getElementById("keyword").value.trim();
-  if (!kwd) return alert("검색어를 입력하세요!");
+
+document.getElementById("searchBtn").addEventListener("click", async () => {
+  const query = document.getElementById("searchInput").value.trim();
+  if (!query) {
+    alert("검색어를 입력해주세요.");
+    return;
+  }
 
   try {
-    const response = await fetch(`/search?q=${encodeURIComponent(kwd)}`);
-    const sample = await response.json();
-    abcd = sample.result || [];
-    render();
-  } catch (err) {
-    console.error(err);
-    document.getElementById("exm").innerHTML = "<p>검색 중 오류가 발생했습니다.</p>";
+  const res = await fetch(`/.netlify/functions/search?q=${encodeURIComponent(query)}`);
+  const text = await res.text(); // JSON 아닌 경우 대비
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch {
+    console.error("JSON 파싱 실패:", text);
+    document.getElementById("exm").innerHTML = `<p>데이터 파싱 실패</p>`;
+    return;
   }
-};
 
-document.getElementById("searchBtn").addEventListener("click", searchBooks);
+   const container = document.getElementById("exm");
+
+    if (data.error) {
+      container.innerHTML = `<p>${data.error}</p>`;
+      console.error("API 에러:", data.detail);
+      return;
+    }
+
+    if (data.length === 0) {
+      container.innerHTML = `<p>검색 결과가 없습니다.</p>`;
+      return;
+    }
+
+    container.innerHTML = data
+      .map(
+        (d) => `
+      <div class="book-card" style="margin-bottom:20px;">
+        <h2>${books.titleInfo}</h2>
+        <div class="img-area">
+          <a href="${books.detailLink}" target="_blank">
+            <img src="${imgUrl}" alt="${books.titleInfo}" style="max-width:150px;">
+          </a>
+        </div>
+      </div>
+    `
+      )
+      .join("");
+  } catch (err) {
+    console.error("프론트 fetch 에러:", err);
+  }
+});
