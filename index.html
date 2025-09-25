@@ -16,15 +16,8 @@
   <div id="exm"></div>
 
   <!-- <script type="module" src="./main.js"></script> -->
-  <!-- <script type="module" src="./netlify/functions/test.js"></script> -->
-   <script>
-    async function update() {
-      const res = await fetch('/.netlify/functions/server');
-      const data = await res.json();
-      document.getElementById('title').textContent = data.message;
-    }
-    update();
-   </script>
+  <script type="module" src="./netlify/functions/test.js"></script>
+
 </body>
 
 </html>
